@@ -13,7 +13,10 @@ CASES = [
     pytest.param(
         scenario,
         marks=pytest.mark.skip(
-            reason="NOT_AUTOMATED: No backend interface exists for this supplied scenario."
+            reason=(
+                "NOT_AUTOMATED: The frozen base does not install or mount "
+                "modules.gymkhana, so no executable backend interface is available."
+            )
         ),
         id=f"{scenario['test_id']}__{scenario['source_id']}",
     )
@@ -25,4 +28,3 @@ CASES = [
 @pytest.mark.parametrize("scenario", CASES)
 def test_supplied_business_rule_not_automated(scenario):
     """The pytest case ID contains the supplied test_id and source_id."""
-
