@@ -1,0 +1,142 @@
+[
+  {
+    "test_id": "BW-GYM-01-enrollment-success",
+    "source_id": "BW-GYM-01",
+    "purpose": "Verify the ordered membership enrollment progression from no application to confirmed membership.",
+    "preconditions": [
+      "A student is authenticated",
+      "A confirmed club exists",
+      "No membership application exists for the student and club",
+      "An applicable Club Head is available"
+    ],
+    "action_or_input": "The Student submits an application to the confirmed club; observe the application as open; the applicable Club Head selects the still-open application and approves it.",
+    "expected_result": "The application progresses from no application to Membership Application Open, then to Membership Confirmed after Club Head approval.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "BW-GYM-01-duplicate-guard",
+    "source_id": "BW-GYM-01",
+    "purpose": "Verify the membership workflow does not start when a duplicate same-club application exists.",
+    "preconditions": [
+      "A student is authenticated",
+      "A confirmed club exists",
+      "The student already has an application for that club"
+    ],
+    "action_or_input": "The student submits another application to the same club.",
+    "expected_result": "The workflow does not transition to a new open application; the duplicate application is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "BW-GYM-01-unauthorized-approval-guard",
+    "source_id": "BW-GYM-01",
+    "purpose": "Verify the membership workflow does not confirm an application when approval is attempted by an inapplicable actor.",
+    "preconditions": [
+      "An open membership application exists",
+      "The approving actor is not the applicable Club Head"
+    ],
+    "action_or_input": "The actor attempts to approve the open application.",
+    "expected_result": "The application does not transition to Membership Confirmed.",
+    "test_type": "authorization"
+  },
+  {
+    "test_id": "BW-GYM-02-poll-participation-success",
+    "source_id": "BW-GYM-02",
+    "purpose": "Verify the ordered targeted-poll progression from poll creation to one recorded student vote.",
+    "preconditions": [
+      "An applicable Club Head is available",
+      "At least two poll choices are available",
+      "Valid batch and branch target groups are available",
+      "An eligible targeted student is authenticated and has not voted"
+    ],
+    "action_or_input": "The Club Head creates the poll for the selected groups; the student accesses the active poll and submits one choice.",
+    "expected_result": "The workflow progresses from Poll Not Available to Poll Open with Target Audience Defined and Student Not Yet Voted, then to Poll Open with Target Audience Defined and Student Vote Recorded.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "BW-GYM-02-choice-guard",
+    "source_id": "BW-GYM-02",
+    "purpose": "Verify poll creation does not start when fewer than two choices are supplied.",
+    "preconditions": [
+      "An applicable Club Head is available",
+      "Fewer than two choices are supplied"
+    ],
+    "action_or_input": "The Club Head submits poll creation.",
+    "expected_result": "The poll is not created and the workflow remains at Poll Not Available.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "BW-GYM-02-target-guard",
+    "source_id": "BW-GYM-02",
+    "purpose": "Verify poll creation does not start when target groups are invalid.",
+    "preconditions": [
+      "An applicable Club Head is available",
+      "Target group information is invalid"
+    ],
+    "action_or_input": "The Club Head submits poll creation with the invalid target information.",
+    "expected_result": "The poll is not created and the workflow remains at Poll Not Available.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "BW-GYM-02-vote-eligibility-guard",
+    "source_id": "BW-GYM-02",
+    "purpose": "Verify voting does not record a vote when the active-poll or target-audience guard fails.",
+    "preconditions": [
+      "A poll exists",
+      "The poll is inactive or expired, or the student is outside the selected target audience"
+    ],
+    "action_or_input": "The student attempts to access or vote in the poll.",
+    "expected_result": "The transition to Student Vote Recorded does not occur.",
+    "test_type": "authorization"
+  },
+  {
+    "test_id": "BW-GYM-02-duplicate-vote-guard",
+    "source_id": "BW-GYM-02",
+    "purpose": "Verify voting does not record a second vote by the same student in the same poll.",
+    "preconditions": [
+      "A poll is active and the student is in its target audience",
+      "The student has already voted in the poll"
+    ],
+    "action_or_input": "The student submits another vote in the same poll.",
+    "expected_result": "The transition does not add another recorded vote.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "BW-GYM-03-establishment-success",
+    "source_id": "BW-GYM-03",
+    "purpose": "Verify the ordered club establishment progression from no club to open and then confirmed club.",
+    "preconditions": [
+      "Student Admin is authenticated and authorized",
+      "Required club data is supplied",
+      "Coordinator and co-coordinator are valid students",
+      "Club Faculty Councillor is valid faculty",
+      "The category is allowed"
+    ],
+    "action_or_input": "Student Admin creates the club; observe the open state; Student Admin approves the open club.",
+    "expected_result": "The club progresses from Club Not Created to Club Open, then to Club Confirmed after approval.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "BW-GYM-03-creation-guard",
+    "source_id": "BW-GYM-03",
+    "purpose": "Verify club establishment does not create an open club when a required creation guard fails.",
+    "preconditions": [
+      "Student Admin attempts club creation",
+      "At least one required guard fails: a leader is invalid, the Faculty Councillor is invalid, or the category is not allowed"
+    ],
+    "action_or_input": "Student Admin submits club creation with the failing guard condition.",
+    "expected_result": "Creation does not succeed and the workflow does not transition from Club Not Created to Club Open.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "BW-GYM-03-approval-guard",
+    "source_id": "BW-GYM-03",
+    "purpose": "Verify club confirmation requires an open club and successful Student Admin approval.",
+    "preconditions": [
+      "Student Admin is authenticated and authorized",
+      "The club is not in the required open state or the approval update does not succeed"
+    ],
+    "action_or_input": "Student Admin attempts to approve the club.",
+    "expected_result": "The workflow does not transition from Club Open to Club Confirmed.",
+    "test_type": "validation"
+  }
+]

@@ -1,116 +1,64 @@
-from django.db import IntegrityError, transaction
-from django.utils import timezone
-from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
+from django.db import transaction
 
-from modules.gymkhana.models import Club, ClubCoordinatorAssignment, MembershipApplication
-
-
-def _student_id(actor):
-    user_id = getattr(actor, "user_id", None)
-    if not user_id or getattr(actor, "kind", None) == "recruiter":
-        raise PermissionDenied("An authenticated institute student is required.")
-    if getattr(actor, "kind", None) != "student":
-        raise PermissionDenied("Only students can apply for club membership.")
-    return user_id
+from modules.gymkhana.models import MembershipApplication
+from modules.gymkhana.services.common import _actor_id, require_club_head
+from modules.gymkhana.services.uc_004_apply_membership import apply_membership
+from modules.gymkhana.services.uc_005_approve_membership import approve_memberships
 
 
+@transaction.atomic
 def apply(*, actor, club_id, achievements="", statement=""):
-    student_id = _student_id(actor)
-    try:
-        club = Club.objects.get(pk=club_id, is_active=True)
-    except Club.DoesNotExist:
-        raise NotFound("Active club not found.")
-
-    try:
-        with transaction.atomic():
-            return MembershipApplication.objects.create(
-                club=club,
-                student_id=student_id,
-                achievements=achievements,
-                statement=statement,
-            )
-    except IntegrityError:
-        raise ValidationError({
-            "club_id": "You already have an application for this club."
-        })
+    # Spec: UC-GYM-004, AFR-GYM-016..019, BW-GYM-01
+    return apply_membership(
+        actor=actor,
+        club_id=club_id,
+        achievements=achievements,
+        description=statement,
+    )
 
 
+@transaction.atomic
 def my_applications(*, actor):
-    student_id = _student_id(actor)
+    # Spec: UC-GYM-004 success postcondition
     return MembershipApplication.objects.filter(
-        student_id=student_id
+        student_id=_actor_id(actor)
     ).select_related("club").order_by("-created_at")
 
 
+@transaction.atomic
 def review(*, actor, application_id, decision, remarks=""):
-    reviewer_id = getattr(actor, "user_id", None)
-    if not reviewer_id or getattr(actor, "kind", None) == "recruiter":
-        raise PermissionDenied("An institute coordinator is required.")
-
-    if decision not in (MembershipApplication.Status.APPROVED,
-                        MembershipApplication.Status.REJECTED):
-        raise ValidationError({"decision": "Use 'approved' or 'rejected'."})
-
-    with transaction.atomic():
-        try:
-            application = (
-                MembershipApplication.objects.select_for_update()
-                .select_related("club")
-                .get(pk=application_id)
-            )
-        except MembershipApplication.DoesNotExist:
-            raise NotFound("Membership application not found.")
-
-        assigned = ClubCoordinatorAssignment.objects.filter(
-            club_id=application.club_id,
-            user_id=reviewer_id,
-            is_active=True,
-        ).exists()
-        if not assigned:
-            raise PermissionDenied(
-                "You are not an active coordinator for this club."
-            )
-
-        if application.status != MembershipApplication.Status.OPEN:
-            raise ValidationError({
-                "status": "This application has already been reviewed."
-            })
-
-        application.status = decision
-        application.reviewed_by = reviewer_id
-        application.reviewed_at = timezone.now()
-        application.review_remarks = remarks
-        application.save(update_fields=[
-            "status", "reviewed_by", "reviewed_at",
-            "review_remarks", "updated_at",
-        ])
-        return application
+    # Spec: UC-GYM-005, BR-GYM-010, BR-GYM-011
+    application = MembershipApplication.objects.select_for_update().get(
+        pk=application_id
+    )
+    require_club_head(application.club, actor)
+    if decision != MembershipApplication.Status.CONFIRMED:
+        raise ValueError("Only confirmation is in the current baseline.")
+    result = approve_memberships(
+        actor=actor,
+        club_id=application.club_id,
+        applications=[{"application_id": application_id, "remarks": remarks}],
+    )
+    if not result[0]["ok"]:
+        raise ValueError("The membership application is not open.")
+    application.refresh_from_db()
+    return application
 
 
+@transaction.atomic
 def bulk_review(*, actor, items):
-    """Each item is independent: one invalid item does not abort the batch."""
-    results = []
+    # Spec: UC-GYM-005 alternative flow; each application is independent.
+    grouped = {}
     for item in items:
-        try:
-            application = review(
+        application = MembershipApplication.objects.get(pk=item["application_id"])
+        grouped.setdefault(application.club_id, []).append(item)
+    results = []
+    for club_id, club_items in grouped.items():
+        results.extend(
+            approve_memberships(
                 actor=actor,
-                application_id=item["application_id"],
-                decision=item["decision"],
-                remarks=item.get("remarks", ""),
+                club_id=club_id,
+                applications=club_items,
             )
-            results.append({
-                "application_id": application.pk,
-                "status": application.status,
-                "ok": True,
-            })
-        except Exception as exc:
-            from rest_framework.exceptions import APIException
-            if isinstance(exc, APIException):
-                results.append({
-                    "application_id": item["application_id"],
-                    "ok": False,
-                    "error": str(getattr(exc, "detail", exc)),
-                })
-            else:
-                raise
+        )
     return results

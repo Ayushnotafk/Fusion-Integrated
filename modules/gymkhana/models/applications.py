@@ -8,39 +8,31 @@ from modules.gymkhana.models.clubs import Club
 class MembershipApplication(TimeStampedModel):
     class Status(models.TextChoices):
         OPEN = "open", "Open"
-        APPROVED = "approved", "Approved"
-        REJECTED = "rejected", "Rejected"
+        CONFIRMED = "confirmed", "Confirmed"
 
-    club = models.ForeignKey(
+    club = models.ForeignKey(  # Spec: AFR-GYM-016
         Club,
         on_delete=models.PROTECT,
         related_name="membership_applications",
     )
-    student_id = models.PositiveBigIntegerField()
-    achievements = models.TextField(blank=True)
-    statement = models.TextField(blank=True)
-
-    status = models.CharField(
-        max_length=12,
+    student_id = models.PositiveBigIntegerField()  # Spec: AFR-GYM-016
+    achievements = models.TextField(blank=True)  # Spec: AFR-GYM-016
+    description = models.TextField(blank=True)  # Spec: AFR-GYM-016
+    status = models.CharField(  # Spec: AFR-GYM-019, BR-GYM-011
+        max_length=9,
         choices=Status.choices,
         default=Status.OPEN,
         db_index=True,
     )
-    reviewed_by = models.PositiveBigIntegerField(null=True, blank=True)
-    reviewed_at = models.DateTimeField(null=True, blank=True)
-    review_remarks = models.TextField(blank=True)
+    remarks = models.TextField(blank=True)  # Spec: AFR-GYM-021
 
     class Meta:
         db_table = "gymkhana_membership_application"
         ordering = ["-created_at"]
         constraints = [
-            models.UniqueConstraint(
-                fields=["club", "student_id"],
-                name="gymkhana_unique_student_club_application",
-            ),
-            models.CheckConstraint(
-                condition=Q(status__in=["open", "approved", "rejected"]),
-                name="gymkhana_valid_application_status",
+            models.CheckConstraint(  # Spec: BR-GYM-011
+                condition=Q(status__in=["open", "confirmed"]),
+                name="gymkhana_membership_status_allowed",
             ),
         ]
         indexes = [

@@ -1,0 +1,64 @@
+1>>Generate Assignment 8 Business Rules test design.
+
+Use only the supplied Gymkhana Problem Statement and Business Rule Specification documents. Do not inspect implementation code, existing tests, fixtures, or repository source code.
+
+Generate the minimum non-redundant set of test scenarios required to cover all specified business rules.
+
+Requirements:
+1. Cover every BR-GYM requirement ID.
+2. Give every scenario a unique test_id.
+3. Use the exact source_id from the specification.
+4. Include positive and negative scenarios wherever supported by the specification.
+5. Do not invent behaviour, actors, validation rules, or expected results.
+6. Mark ambiguous or insufficiently specified behaviour clearly; do not guess.
+7. Use only these fields:
+   - test_id
+   - source_id
+   - purpose
+   - preconditions
+   - action_or_input
+   - expected_result
+   - test_type
+8. Output ONLY a valid JSON array. No Markdown or explanations.
+9. Save the result as a8_design/BR_DESIGN.json.
+10. Freeze the design before exposing implementation code.
+
+
+2>>URGENT: Implement Assignment 8 BR tests.
+
+Inspect only:
+- a8_design/BR_DESIGN.json
+- tests/a8/
+- Relevant Gymkhana implementation files
+- Existing fixtures
+
+Generate executable pytest tests under tests/a8/br/, mapped to every test_id in BR_DESIGN.json.
+
+Rules:
+1. Reuse existing fixtures and actual project APIs.
+2. Do not modify production code, A8_BASE, or BR_DESIGN.json.
+3. Do not perform broad repository exploration or refactoring.
+4. Do not invent APIs or expected behaviour.
+5. If a scenario cannot be implemented with the available code or fixtures, explicitly mark it unimplemented/skipped and explain why.
+6. Ensure every design test_id is accounted for.
+7. Run the targeted BR suite and save JUnit XML, pytest.log, and coverage XML if possible.
+8. Report passed, failed, skipped, and unimplemented scenarios separately.
+
+Prioritize a working, traceable test suite over elaborate abstractions. Execute now.
+
+
+
+3>>The first run had one test-side branch-selection bug: the unconfigured-venue test condition matched a configured venue. The test condition was corrected, then the targeted BR suite was rerun.
+
+The exact original repair prompt wording was not preserved in the available conversation record. Paste the exact Copilot repair prompt here if available.
+
+
+
+4>>Frozen design scenarios: 39
+Reported final execution: 38 passed, 0 failed, 1 skipped.
+Skipped:
+- BR-GYM-013-all-branches-where-supported — configured all-branches interface unavailable.
+JUnit: test-results/br-design.xml
+Pytest log: test-results/br-pytest.log
+Coverage XML: not generated; pytest-cov unavailable.
+Environment: SQLite test setting, migrations disabled; PostgreSQL unavailable.

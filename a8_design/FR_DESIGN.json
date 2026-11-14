@@ -1,0 +1,612 @@
+[
+  {
+    "test_id": "CFR-GYM-001-minimum",
+    "source_id": "CFR-GYM-001",
+    "purpose": "Verify the CFR-GYM-001 lifecycle composed of AFR-GYM-001..006",
+    "preconditions": [
+      "Student Admin authenticated and authorized",
+      "Valid student and faculty records available"
+    ],
+    "action_or_input": "Student Admin creates the club with all required data; Observe club status; Student Admin approves the open club; Observe club status",
+    "expected_result": "Club is created with status open, then after approval its status is confirmed.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "CFR-GYM-002-minimum",
+    "source_id": "CFR-GYM-002",
+    "purpose": "Verify CFR-GYM-002 composed of AFR-GYM-007..009",
+    "preconditions": [
+      "Actor is applicable Club Head of an existing club",
+      "Valid replacement students available"
+    ],
+    "action_or_input": "Club Head submits new coordinator and co-coordinator; Observe club leadership; Observe superseded designations",
+    "expected_result": "Club references the new coordinator and co-coordinator as current leadership and superseded assignments are no longer current.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "CFR-GYM-003-minimum",
+    "source_id": "CFR-GYM-003",
+    "purpose": "Verify CFR-GYM-003 composed of AFR-GYM-010..015",
+    "preconditions": [
+      "Actor is applicable Club Head",
+      "Club is confirmed",
+      "Configured venue available"
+    ],
+    "action_or_input": "Book session; Book event in same venue/date with non-overlapping slot; Observe stored bookings and notifications",
+    "expected_result": "Both bookings are accepted and stored; notification is initiated for each.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "CFR-GYM-004-minimum",
+    "source_id": "CFR-GYM-004",
+    "purpose": "Verify CFR-GYM-004 composed of AFR-GYM-016..022",
+    "preconditions": [
+      "Club is confirmed",
+      "Student authenticated",
+      "Actor approving is applicable Club Head"
+    ],
+    "action_or_input": "Student applies to the confirmed club; Observe application status; Club Head lists pending applications and approves with remarks; Observe application status and remarks",
+    "expected_result": "Application is recorded open, then confirmed with remarks retained.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "CFR-GYM-005-minimum",
+    "source_id": "CFR-GYM-005",
+    "purpose": "Verify CFR-GYM-005 composed of AFR-GYM-023..028",
+    "preconditions": [
+      "Actor is applicable Club Head",
+      "Student belongs to selected target group"
+    ],
+    "action_or_input": "Club Head creates poll; Observe notification to target students; Student views poll and casts one vote; Observe tally",
+    "expected_result": "Poll is created active with expiration date and choices; target students notified; student's vote accepted and tally records it.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "CFR-GYM-006-minimum",
+    "source_id": "CFR-GYM-006",
+    "purpose": "Verify CFR-GYM-006 composed of AFR-GYM-029..031",
+    "preconditions": [
+      "Actor is applicable Club Head",
+      "Club is confirmed"
+    ],
+    "action_or_input": "Submit budget request with all fields and supporting file; Observe stored request",
+    "expected_result": "Request is stored with status open.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "CFR-GYM-007-minimum",
+    "source_id": "CFR-GYM-007",
+    "purpose": "Verify CFR-GYM-007 composed of AFR-GYM-032..034",
+    "preconditions": [
+      "Actor is applicable Club Head",
+      "Faculty user is assigned Club Faculty Councillor of the club"
+    ],
+    "action_or_input": "Club Head submits event report with file; Councillor lists reports for the club; Councillor opens the report",
+    "expected_result": "Report is stored; the assigned councillor can list it and access metadata and file; no approval/rejection state is created.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-001-minimum",
+    "source_id": "AFR-GYM-001",
+    "purpose": "Verify: Student Admin creates club recording all listed fields",
+    "preconditions": [
+      "Student Admin authenticated and authorized",
+      "Valid student/faculty records"
+    ],
+    "action_or_input": "Submit create-club with all fields; Read the created club",
+    "expected_result": "Club is created and records name, category, coordinator, co-coordinator, Club Faculty Councillor and description as submitted.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-002-invalid-coordinator",
+    "source_id": "AFR-GYM-002",
+    "purpose": "Verify invalid coordinator assignment is rejected during club creation",
+    "preconditions": [
+      "Student Admin is authenticated",
+      "The selected coordinator is not a valid student",
+      "The co-coordinator is valid"
+    ],
+    "action_or_input": "Submit club creation with the invalid coordinator.",
+    "expected_result": "Club creation is rejected because the coordinator is not a valid student.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-002-invalid-co-coordinator",
+    "source_id": "AFR-GYM-002",
+    "purpose": "Verify invalid co-coordinator assignment is rejected during club creation",
+    "preconditions": [
+      "Student Admin is authenticated",
+      "The coordinator is valid",
+      "The selected co-coordinator is not a valid student"
+    ],
+    "action_or_input": "Submit club creation with the invalid co-coordinator.",
+    "expected_result": "Club creation is rejected because the co-coordinator is not a valid student.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-003-minimum",
+    "source_id": "AFR-GYM-003",
+    "purpose": "Verify: Valid faculty member accepted as Club Faculty Councillor",
+    "preconditions": [
+      "Student Admin authenticated",
+      "Valid faculty member exists"
+    ],
+    "action_or_input": "Submit create-club with valid faculty; Observe outcome",
+    "expected_result": "Validation passes; club is created.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-004-minimum",
+    "source_id": "AFR-GYM-004",
+    "purpose": "Verify: Each allowed category accepted (Technical, Sports, Cultural)",
+    "preconditions": [
+      "Student Admin authenticated",
+      "otherwise valid club data"
+    ],
+    "action_or_input": "For each allowed category submit create-club; Observe outcome",
+    "expected_result": "Each submission is accepted and the club records the submitted category.",
+    "test_type": "boundary"
+  },
+  {
+    "test_id": "AFR-GYM-005-minimum",
+    "source_id": "AFR-GYM-005",
+    "purpose": "Verify: Newly created club has status open",
+    "preconditions": [
+      "Student Admin authenticated",
+      "valid club data"
+    ],
+    "action_or_input": "Create club; Read club status",
+    "expected_result": "Club status is open.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-006-minimum",
+    "source_id": "AFR-GYM-006",
+    "purpose": "Verify: Student Admin approves an open club; status becomes confirmed",
+    "preconditions": [
+      "Student Admin authenticated and authorized",
+      "club status open"
+    ],
+    "action_or_input": "Approve the open club; Read club status",
+    "expected_result": "Club status is confirmed.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-007-minimum",
+    "source_id": "AFR-GYM-007",
+    "purpose": "Verify: Applicable Club Head replaces coordinator and co-coordinator",
+    "preconditions": [
+      "Actor is the applicable current Club Head",
+      "club exists"
+    ],
+    "action_or_input": "Submit leadership change; Read club",
+    "expected_result": "Club coordinator and co-coordinator are the new assignees.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-008-invalid-replacement-coordinator",
+    "source_id": "AFR-GYM-008",
+    "purpose": "Verify an invalid replacement coordinator is rejected",
+    "preconditions": [
+      "An applicable Club Head and an existing club are available",
+      "The replacement coordinator is not a valid student",
+      "The replacement co-coordinator is valid"
+    ],
+    "action_or_input": "Submit a leadership change with the invalid replacement coordinator.",
+    "expected_result": "The leadership change is rejected because the replacement coordinator is not a valid student.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-008-invalid-replacement-co-coordinator",
+    "source_id": "AFR-GYM-008",
+    "purpose": "Verify an invalid replacement co-coordinator is rejected",
+    "preconditions": [
+      "An applicable Club Head and an existing club are available",
+      "The replacement coordinator is valid",
+      "The replacement co-coordinator is not a valid student"
+    ],
+    "action_or_input": "Submit a leadership change with the invalid replacement co-coordinator.",
+    "expected_result": "The leadership change is rejected because the replacement co-coordinator is not a valid student.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-009-minimum",
+    "source_id": "AFR-GYM-009",
+    "purpose": "Verify: Only current coordinator and co-coordinator remain current after change",
+    "preconditions": [
+      "Club has current coordinator C1 and co-coordinator C2"
+    ],
+    "action_or_input": "Submit change to C3/C4; Read current leadership designations for the club",
+    "expected_result": "Current leadership assignments are only C3 and C4; C1 and C2 no longer current.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-010-minimum",
+    "source_id": "AFR-GYM-010",
+    "purpose": "Verify: Club Head books a session with all fields including optional poster",
+    "preconditions": [
+      "Applicable Club Head",
+      "club confirmed",
+      "configured venue"
+    ],
+    "action_or_input": "Submit session booking; Read stored session",
+    "expected_result": "Session is stored with submitted values; booking confirmed.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-011-valid-session-time-range",
+    "source_id": "AFR-GYM-011",
+    "purpose": "Verify a session accepts a start time before its end time",
+    "preconditions": [
+      "An applicable Club Head and a configured venue are available"
+    ],
+    "action_or_input": "Submit a session booking with start time earlier than end time.",
+    "expected_result": "The session booking is accepted.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-011-valid-event-time-range",
+    "source_id": "AFR-GYM-011",
+    "purpose": "Verify an event accepts a start time before its end time",
+    "preconditions": [
+      "An applicable Club Head, valid faculty context, and a configured venue are available"
+    ],
+    "action_or_input": "Submit an event booking with start time earlier than end time.",
+    "expected_result": "The event booking is accepted.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-011-session-equal-time-rejected",
+    "source_id": "AFR-GYM-011",
+    "purpose": "Verify a session rejects equal start and end times",
+    "preconditions": [
+      "An applicable Club Head and a configured venue are available"
+    ],
+    "action_or_input": "Submit a session booking with start time equal to end time.",
+    "expected_result": "The session booking is rejected.",
+    "test_type": "boundary"
+  },
+  {
+    "test_id": "AFR-GYM-011-event-equal-time-rejected",
+    "source_id": "AFR-GYM-011",
+    "purpose": "Verify an event rejects equal start and end times",
+    "preconditions": [
+      "An applicable Club Head, valid faculty context, and a configured venue are available"
+    ],
+    "action_or_input": "Submit an event booking with start time equal to end time.",
+    "expected_result": "The event booking is rejected.",
+    "test_type": "boundary"
+  },
+  {
+    "test_id": "AFR-GYM-011-session-later-end-rejected",
+    "source_id": "AFR-GYM-011",
+    "purpose": "Verify a session rejects a start time later than its end time",
+    "preconditions": [
+      "An applicable Club Head and a configured venue are available"
+    ],
+    "action_or_input": "Submit a session booking with start time later than end time.",
+    "expected_result": "The session booking is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-011-event-later-end-rejected",
+    "source_id": "AFR-GYM-011",
+    "purpose": "Verify an event rejects a start time later than its end time",
+    "preconditions": [
+      "An applicable Club Head, valid faculty context, and a configured venue are available"
+    ],
+    "action_or_input": "Submit an event booking with start time later than end time.",
+    "expected_result": "The event booking is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-012-session-session-overlap-rejected",
+    "source_id": "AFR-GYM-012",
+    "purpose": "Verify overlapping sessions in the same venue and date are rejected",
+    "preconditions": [
+      "An existing session occupies a venue on a date",
+      "An applicable Club Head attempts another session in that venue and date with overlapping time"
+    ],
+    "action_or_input": "Submit the overlapping session booking.",
+    "expected_result": "The overlapping session booking is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-012-event-event-overlap-rejected",
+    "source_id": "AFR-GYM-012",
+    "purpose": "Verify overlapping events in the same venue and date are rejected",
+    "preconditions": [
+      "An existing event occupies a venue on a date",
+      "An applicable Club Head attempts another event in that venue and date with overlapping time"
+    ],
+    "action_or_input": "Submit the overlapping event booking.",
+    "expected_result": "The overlapping event booking is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-012-session-event-overlap-rejected",
+    "source_id": "AFR-GYM-012",
+    "purpose": "Verify an overlapping session and event in the same venue and date are rejected",
+    "preconditions": [
+      "An existing session or event occupies a venue on a date",
+      "An applicable Club Head attempts the other booking type in that venue and date with overlapping time"
+    ],
+    "action_or_input": "Submit the overlapping booking.",
+    "expected_result": "The overlapping booking is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-013-minimum",
+    "source_id": "AFR-GYM-013",
+    "purpose": "Verify: Notification initiated after a session is successfully booked",
+    "preconditions": [
+      "Applicable Club Head",
+      "confirmed club",
+      "notification service available"
+    ],
+    "action_or_input": "Book session; Observe notification service for new-session notification",
+    "expected_result": "After a session is successfully booked, notification is initiated or delivered as specified.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-014-minimum",
+    "source_id": "AFR-GYM-014",
+    "purpose": "Verify: Club Head books an event with all listed details",
+    "preconditions": [
+      "Applicable Club Head",
+      "confirmed club",
+      "valid faculty"
+    ],
+    "action_or_input": "Submit event booking; Read stored event",
+    "expected_result": "Event stored with submitted values.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-015-minimum",
+    "source_id": "AFR-GYM-015",
+    "purpose": "Verify: Notification initiated after an event is successfully booked",
+    "preconditions": [
+      "Applicable Club Head",
+      "confirmed club",
+      "notification service available"
+    ],
+    "action_or_input": "Book event; Observe notification service",
+    "expected_result": "After an event is successfully booked, notification is initiated or delivered as specified.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-016-minimum",
+    "source_id": "AFR-GYM-016",
+    "purpose": "Verify: Student applies to a confirmed club with description/achievements",
+    "preconditions": [
+      "Student authenticated",
+      "club confirmed"
+    ],
+    "action_or_input": "Submit application; Read application",
+    "expected_result": "Application accepted and records the description/achievements.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-017-minimum",
+    "source_id": "AFR-GYM-017",
+    "purpose": "Verify: Student holds applications to two different clubs",
+    "preconditions": [
+      "Clubs A and B confirmed"
+    ],
+    "action_or_input": "Apply to Club A; Apply to Club B; Read applications",
+    "expected_result": "Both applications exist.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-018-minimum",
+    "source_id": "AFR-GYM-018",
+    "purpose": "Verify: Duplicate application to same club rejected; existing unchanged",
+    "preconditions": [
+      "Student has open application to Club A"
+    ],
+    "action_or_input": "Submit second application to Club A; Read applications",
+    "expected_result": "Duplicate rejected; existing application unchanged; no second application.",
+    "test_type": "negative"
+  },
+  {
+    "test_id": "AFR-GYM-019-minimum",
+    "source_id": "AFR-GYM-019",
+    "purpose": "Verify: New application is recorded with status open",
+    "preconditions": [
+      "Student authenticated",
+      "club confirmed"
+    ],
+    "action_or_input": "Submit application; Read status",
+    "expected_result": "Status is open.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-020-minimum",
+    "source_id": "AFR-GYM-020",
+    "purpose": "Verify: Applicable Club Head accesses pending applications for own club",
+    "preconditions": [
+      "Applicable Club Head",
+      "open applications exist for the club and for another club"
+    ],
+    "action_or_input": "Request pending applications for the club; Observe list",
+    "expected_result": "Open applications for the club are returned; those of other clubs are not.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-021-minimum",
+    "source_id": "AFR-GYM-021",
+    "purpose": "Verify: Club Head approves open application with remarks",
+    "preconditions": [
+      "Applicable Club Head",
+      "open application exists"
+    ],
+    "action_or_input": "Approve application with remarks; Read application",
+    "expected_result": "Approval accepted; remarks stored.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-022-minimum",
+    "source_id": "AFR-GYM-022",
+    "purpose": "Verify: Approved application changes from open to confirmed",
+    "preconditions": [
+      "Open application exists"
+    ],
+    "action_or_input": "Approve; Read status",
+    "expected_result": "Status is confirmed.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-023-minimum",
+    "source_id": "AFR-GYM-023",
+    "purpose": "Verify: Club Head creates poll with all listed attributes",
+    "preconditions": [
+      "Applicable Club Head"
+    ],
+    "action_or_input": "Create poll; Read poll",
+    "expected_result": "Poll created with title, description, expiration date, choices and target groups.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-024-minimum",
+    "source_id": "AFR-GYM-024",
+    "purpose": "Verify: Poll with exactly two choices accepted",
+    "preconditions": [
+      "Applicable Club Head"
+    ],
+    "action_or_input": "Create poll; Observe",
+    "expected_result": "Poll created.",
+    "test_type": "boundary"
+  },
+  {
+    "test_id": "AFR-GYM-025-minimum",
+    "source_id": "AFR-GYM-025",
+    "purpose": "Verify: Students in selected target groups are notified on poll creation",
+    "preconditions": [
+      "Applicable Club Head",
+      "students exist in target group G1 and non-target group G2"
+    ],
+    "action_or_input": "Create poll; Observe notifications",
+    "expected_result": "Students in G1 are notified.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-026-minimum",
+    "source_id": "AFR-GYM-026",
+    "purpose": "Verify: Eligible targeted student accesses active poll and its choices",
+    "preconditions": [
+      "Poll active/unexpired",
+      "student in target group"
+    ],
+    "action_or_input": "Request poll details; Observe",
+    "expected_result": "Poll and available choices are presented.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-027-minimum",
+    "source_id": "AFR-GYM-027",
+    "purpose": "Verify: Eligible student casts one choice in an active poll",
+    "preconditions": [
+      "Poll active",
+      "student in target group",
+      "not yet voted"
+    ],
+    "action_or_input": "Submit vote; Observe",
+    "expected_result": "Vote accepted.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-028-minimum",
+    "source_id": "AFR-GYM-028",
+    "purpose": "Verify: Accepted vote is recorded in the poll tally",
+    "preconditions": [
+      "Poll active",
+      "eligible student",
+      "tally of chosen option is n"
+    ],
+    "action_or_input": "Vote for option O; Read tally",
+    "expected_result": "Tally of O is n+1; other options unchanged.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-029-minimum",
+    "source_id": "AFR-GYM-029",
+    "purpose": "Verify: Club Head submits budget request with all fields",
+    "preconditions": [
+      "Applicable Club Head",
+      "club confirmed"
+    ],
+    "action_or_input": "Submit request; Read stored request",
+    "expected_result": "Request accepted and stored with submitted values.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-030-negative-amount-rejected",
+    "source_id": "AFR-GYM-030",
+    "purpose": "Verify a negative budget amount is rejected",
+    "preconditions": [
+      "An applicable Club Head is available",
+      "All other budget request data is valid"
+    ],
+    "action_or_input": "Submit a budget request with a negative amount.",
+    "expected_result": "The budget request is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-030-missing-file-rejected",
+    "source_id": "AFR-GYM-030",
+    "purpose": "Verify a missing supporting file is rejected",
+    "preconditions": [
+      "An applicable Club Head is available",
+      "The amount and other budget request data are valid"
+    ],
+    "action_or_input": "Submit a budget request without the required supporting file.",
+    "expected_result": "The budget request is rejected.",
+    "test_type": "validation"
+  },
+  {
+    "test_id": "AFR-GYM-031-minimum",
+    "source_id": "AFR-GYM-031",
+    "purpose": "Verify: Submitted budget request stored with status open",
+    "preconditions": [
+      "Applicable Club Head"
+    ],
+    "action_or_input": "Submit valid request; Read status",
+    "expected_result": "Status is open for tracking.",
+    "test_type": "state_transition"
+  },
+  {
+    "test_id": "AFR-GYM-032-minimum",
+    "source_id": "AFR-GYM-032",
+    "purpose": "Verify: Club Head submits event report with all listed fields",
+    "preconditions": [
+      "Applicable Club Head",
+      "event/activity has occurred"
+    ],
+    "action_or_input": "Submit report; Read stored report",
+    "expected_result": "Report stored and available in the club repository.",
+    "test_type": "positive"
+  },
+  {
+    "test_id": "AFR-GYM-033-minimum",
+    "source_id": "AFR-GYM-033",
+    "purpose": "Verify: Report without report/details file rejected",
+    "preconditions": [
+      "Applicable Club Head"
+    ],
+    "action_or_input": "Submit; Observe",
+    "expected_result": "Report not accepted.",
+    "test_type": "negative"
+  },
+  {
+    "test_id": "AFR-GYM-034-minimum",
+    "source_id": "AFR-GYM-034",
+    "purpose": "Verify: Assigned councillor lists and opens submitted reports for own club",
+    "preconditions": [
+      "Faculty authenticated and assigned as councillor",
+      "report exists"
+    ],
+    "action_or_input": "List reports; Open one report",
+    "expected_result": "Report metadata and file available for review.",
+    "test_type": "positive"
+  }
+]
