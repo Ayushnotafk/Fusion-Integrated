@@ -1,0 +1,64 @@
+1>>
+Generate Assignment 8 Workflow-Based Test Design.
+
+Use only the supplied Gymkhana Problem Statement and Workflow Specification documents. Do not inspect implementation code, existing tests, or fixtures.
+
+Generate the minimum non-redundant scenarios required to test the specified workflows.
+
+Requirements:
+1. Cover all specified workflows: BW-GYM-01, BW-GYM-02, BW-GYM-03.
+2. Test the ordered sequence of activities, not merely individual use cases in isolation.
+3. Include successful workflow paths.
+4. Include failure/guard paths only where explicitly supported by the specifications.
+5. Verify relevant state transitions and postconditions at workflow completion.
+6. Do not invent workflow steps, transitions, actors, or expected outcomes.
+7. Mark ambiguous or unsupported scenarios clearly.
+8. Every scenario must have a unique test_id and exact source_id.
+9. Use only these fields:
+   - test_id
+   - source_id
+   - purpose
+   - preconditions
+   - action_or_input
+   - expected_result
+   - test_type
+10. Output ONLY a valid JSON array.
+11. Save as a8_design/WF_DESIGN.json.
+12. Freeze this design before exposing implementation code.
+
+2>>
+
+URGENT: Implement Assignment 8 WF tests.
+
+Inspect only:
+- a8_design/WF_DESIGN.json
+- tests/a8/
+- Relevant Gymkhana implementation files
+- Existing fixtures
+
+Generate executable pytest tests under tests/a8/wf/.
+
+Requirements:
+1. Map every design test_id to an executable test or explicitly mark it unimplemented/skipped.
+2. Test workflow sequences using actual project services and fixtures.
+3. Do not modify production code, A8_BASE, or WF_DESIGN.json.
+4. Do not invent APIs or expected behaviour.
+5. Do not perform broad repository exploration or refactoring.
+6. Run the targeted WF suite.
+7. Save JUnit XML and pytest.log; generate coverage XML if pytest-cov is available.
+8. Report passed, failed, skipped, and unimplemented scenarios separately.
+
+Prioritize traceability and correct execution over elaborate abstractions. Execute now.
+
+3>>
+
+No repair prompt was reported in the available workflow summary. The suite was reported as passing on its first targeted execution. Confirm Copilot history before entering a final repair-prompt count.
+
+4>>
+
+Frozen design scenarios: 11
+Reported execution: 11 passed, 0 failed, 0 skipped.
+JUnit: test-results/wf-design.xml
+Pytest log: test-results/wf-pytest.log
+Coverage XML: not generated; pytest-cov unavailable.
+Environment: SQLite test setting, migrations disabled; PostgreSQL unavailable.

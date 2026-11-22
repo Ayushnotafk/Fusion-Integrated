@@ -1,0 +1,50 @@
+....s.....s......s..........s.................s..                        [100%]
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.11.9-final-0 _______________
+
+Name                                                                                  Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------------------------------------
+modules\gymkhana\__init__.py                                                              0      0   100%
+modules\gymkhana\admin.py                                                                 3      3     0%   1-19
+modules\gymkhana\api\__init__.py                                                          0      0   100%
+modules\gymkhana\api\permissions.py                                                      57     57     0%   1-81
+modules\gymkhana\api\serializers.py                                                     103    103     0%   1-195
+modules\gymkhana\api\urls.py                                                              3      3     0%   1-5
+modules\gymkhana\api\views.py                                                           126    126     0%   1-279
+modules\gymkhana\apps.py                                                                  6      0   100%
+modules\gymkhana\migrations\0001_initial.py                                               8      8     0%   1-14
+modules\gymkhana\migrations\0002_alter_clubevent_poster_alter_clubsession_poster.py       4      4     0%   1-10
+modules\gymkhana\migrations\__init__.py                                                   0      0   100%
+modules\gymkhana\models\__init__.py                                                       7      0   100%
+modules\gymkhana\models\applications.py                                                  21      1    95%   44
+modules\gymkhana\models\budgets.py                                                       21      1    95%   52
+modules\gymkhana\models\clubs.py                                                         78      5    94%   49, 89, 101, 136, 173
+modules\gymkhana\models\polls.py                                                         39      4    90%   22, 38, 60, 86
+modules\gymkhana\models\reports.py                                                       17      1    94%   28
+modules\gymkhana\registry.py                                                              5      5     0%   3-49
+modules\gymkhana\selectors\__init__.py                                                    0      0   100%
+modules\gymkhana\selectors\applications.py                                                5      5     0%   1-11
+modules\gymkhana\services\__init__.py                                                    13      0   100%
+modules\gymkhana\services\adapters.py                                                    24      4    83%   24, 27, 30, 42
+modules\gymkhana\services\common.py                                                      76     11    86%   32, 44, 58, 72, 87, 146, 153-159
+modules\gymkhana\services\exceptions.py                                                  27      0   100%
+modules\gymkhana\services\membership.py                                                  32     32     0%   1-64
+modules\gymkhana\services\uc_001_create_club.py                                          14      0   100%
+modules\gymkhana\services\uc_002_book_session.py                                         16      0   100%
+modules\gymkhana\services\uc_003_book_event.py                                           17      0   100%
+modules\gymkhana\services\uc_004_apply_membership.py                                     16      1    94%   43
+modules\gymkhana\services\uc_005_approve_membership.py                                   23      3    87%   10-12
+modules\gymkhana\services\uc_006_create_poll.py                                          21      1    95%   37
+modules\gymkhana\services\uc_007_vote_poll.py                                            30      4    87%   27, 32, 47, 51
+modules\gymkhana\services\uc_008_change_leadership.py                                    16      0   100%
+modules\gymkhana\services\uc_009_request_budget.py                                       15      0   100%
+modules\gymkhana\services\uc_010_submit_report.py                                        16      0   100%
+modules\gymkhana\services\uc_011_approve_club.py                                         11      0   100%
+modules\gymkhana\services\uc_012_review_report.py                                         9      0   100%
+modules\gymkhana\tests\__init__.py                                                        0      0   100%
+modules\gymkhana\tests\test_api.py                                                       75     75     0%   1-233
+modules\gymkhana\tests\test_membership.py                                                52     52     0%   1-121
+-------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                  1006    509    49%
+Coverage XML written to file C:\Users\ayush\OneDrive\Desktop\SEM 5\softwareeng-lab\fusion(code)\Fusion-Integrated\A8_Submission\results\uc\coverage.xml
+44 passed, 5 skipped in 1.52s

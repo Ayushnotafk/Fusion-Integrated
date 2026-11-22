@@ -1,0 +1,59 @@
+1>>
+
+Generate the Assignment 8 Use Case test design.
+
+Use only the supplied Gymkhana Problem Statement, Use Case Specification, and relevant specification/traceability documents. Do not inspect or request implementation code, existing tests, fixtures, or repository source code.
+
+Generate the minimum non-redundant set of test scenarios needed to cover all specified use cases UC-GYM-001 through UC-GYM-012.
+
+Requirements:
+1. Cover all 12 specified use cases.
+2. Give every scenario a unique test_id and preserve the exact source_id.
+3. Include main success, alternative and exception flows only where explicitly supported by the use case specification.
+4. Do not invent actors, workflow steps, APIs, validation rules, or expected results.
+5. Mark ambiguous or insufficiently specified behaviour clearly.
+6. Use only these fields:
+   - test_id
+   - source_id
+   - purpose
+   - preconditions
+   - action_or_input
+   - expected_result
+   - test_type
+7. Output ONLY a valid JSON array.
+8. Save as a8_design/UC_DESIGN.json.
+9. Freeze the design before exposing implementation code.
+
+2>>
+
+URGENT: Implement Assignment 8 UC tests quickly.
+
+The frozen a8_design/UC_DESIGN.json contains the UC scenarios. Use the actual scenario count in the file; do not assume a count from an earlier draft.
+
+1. Inspect only a8_design/UC_DESIGN.json, tests/a8/, relevant Gymkhana implementation files, and existing fixtures.
+2. Generate pytest tests under tests/a8/uc/ mapped to every test_id in the frozen design.
+3. Reuse existing fixtures and actual project APIs.
+4. Do not modify production code, A8_BASE, or UC_DESIGN.json.
+5. Do not perform broad repository exploration or refactoring.
+6. Run the generated tests once and save a JUnit XML report if possible.
+7. Report passed, failed, skipped, and unimplemented scenarios honestly.
+8. Prioritize a working, traceable test suite over elaborate abstractions. Execute now. Do not just provide a plan.
+
+3>>
+
+The initial SQLite execution reported two assertion/data-choice failures. The test implementation was corrected, and the suite was rerun.
+
+The exact original repair prompt wording was not preserved in the available conversation record. Insert the exact prompt from Copilot history here if available. Do not claim this summary is a verbatim prompt.
+
+4>>
+
+Frozen design scenarios: 49 (as reported in the final execution summary; verify against the final JSON file).
+Reported final execution: 44 passed, 0 failed, 5 skipped.
+Skipped reasons:
+- 3: storage/notification failure injection unavailable.
+- 1: configured all-branches option unavailable.
+- 1: club update failure injection unavailable.
+JUnit: test-results/uc-design-sqlite.xml
+Pytest log: path was not confirmed in the recorded final summary; verify whether a preserved UC log exists.
+Coverage XML: not generated; pytest-cov unavailable.
+Environment: SQLite in-memory database, migrations disabled; PostgreSQL unavailable.

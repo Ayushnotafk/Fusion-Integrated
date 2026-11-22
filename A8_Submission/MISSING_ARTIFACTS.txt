@@ -1,0 +1,10 @@
+All previously missing Assignment 8 artifacts have been supplied or generated:
+- A8_Data.xlsx copied unchanged from the provided workbook.
+- results/fr/coverage.xml generated with pytest-cov.
+- results/uc/coverage.xml generated with pytest-cov.
+- results/br/coverage.xml generated with pytest-cov.
+- results/wf/coverage.xml generated with pytest-cov.
+- results/uc/pytest.log captured from the SQLite UC test run.
+
+SQLite execution settings: temporary non-production settings imported config.settings.test and used an in-memory SQLite database with migrations disabled.
+Recorded outcomes preserved: FR 51 passed; UC 44 passed and 5 skipped; BR 38 passed and 1 skipped; WF 11 passed.

@@ -1,0 +1,43 @@
+ASSIGNMENT 8 — CODE REFERENCE
+
+Module: 18 — Gymkhana
+Team: Backend
+
+Team Members:
+1. Ayush Kumar Thakur — 24BCS045
+2. Aman Raj — 24BCS022
+
+Repository:
+Fusion-Integrated
+
+Repository URL:
+https://github.com/FusionIIIT/Fusion-Integrated.git
+
+Branch:
+assignment6-elm
+
+Frozen Baseline:
+A8_BASE
+Commit Hash:897973538efc360227efc438ac9db70fdae40674
+
+A8_BASE Commit Hash:
+[ENTER ACTUAL COMMIT HASH HERE]
+
+A8_BASE Tag:
+A8_BASE
+
+Testing Environment:
+- Operating System: Windows 11
+- Testing Framework: pytest / pytest-django
+- Database: SQLite (in-memory)
+- Django migrations: Disabled during targeted test execution
+- PostgreSQL: Unavailable during testing
+
+Production Code:
+No production code changes were made during Assignment 8 test generation and execution.
+
+Testing Strategies:
+- Functional Requirements (FR)
+- Use Cases (UC)
+- Business Rules (BR)
+- Workflows (WF)

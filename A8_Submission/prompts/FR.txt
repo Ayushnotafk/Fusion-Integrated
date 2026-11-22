@@ -1,0 +1,66 @@
+1>>
+Generate the Assignment 8 Functional Requirements test design.
+
+Use only the supplied Gymkhana Problem Statement, Functional Requirement Registry (CFR/AFR), and relevant traceability specification documents. Do not inspect or request implementation code, existing tests, fixtures, or repository source code.
+
+Generate the minimum non-redundant set of test scenarios needed to cover all specified CFR and AFR requirements.
+
+Requirements:
+1. Cover all specified CFR-GYM and AFR-GYM requirement IDs.
+2. Give every scenario a unique test_id and preserve the exact source_id from the specification.
+3. Include positive and negative scenarios wherever explicitly supported by the specification.
+4. Split materially different conditions into separate scenarios when they represent distinct specified behaviour.
+5. Do not invent behaviour, actors, validation rules, recipients, or expected results.
+6. If a requirement is ambiguous or insufficiently specified, identify the ambiguity instead of guessing.
+7. Use only these fields:
+   - test_id
+   - source_id
+   - purpose
+   - preconditions
+   - action_or_input
+   - expected_result
+   - test_type
+8. Output ONLY a valid JSON array. No Markdown or explanations.
+9. Save the result as a8_design/FR_DESIGN.json.
+
+Freeze the design before exposing any implementation code.
+
+2>>
+URGENT: Implement Assignment 8 FR tests.
+
+The frozen design already exists at a8_design/FR_DESIGN.json.
+
+Inspect only:
+- a8_design/FR_DESIGN.json
+- tests/a8/
+- Relevant Gymkhana implementation files
+- Existing fixtures
+
+Generate executable pytest tests under tests/a8/fr/ mapped to every frozen FR test_id.
+
+Rules:
+1. Preserve FR_DESIGN.json unchanged.
+2. Reuse actual project services, APIs and fixtures.
+3. Do not modify production code or A8_BASE.
+4. Do not perform broad repository exploration or refactoring.
+5. Do not invent expected behaviour or APIs.
+6. Explicitly mark unsupported scenarios as skipped/unimplemented with reasons.
+7. Verify every design test_id is accounted for.
+8. Run the targeted FR suite.
+9. Save JUnit XML and pytest.log; generate coverage XML if pytest-cov is available.
+10. Report passed, failed, skipped and unimplemented scenarios separately.
+
+Use the same SQLite test setup as the other strategies if PostgreSQL remains unavailable. Execute now; prioritize traceability and a working suite.
+
+3>>
+A test-side correction was made after two scenarios failed because the test referenced a nonexistent model attribute for vote tally. The assertion was corrected to inspect actual persisted vote records instead.
+
+The exact original repair prompt wording was not preserved in the available conversation record. If the original Copilot prompt is available, paste it here. Do not represent this description as a verbatim prompt.
+
+4>>
+Frozen design scenarios: 51
+Reported execution: 51 passed, 0 failed, 0 skipped
+JUnit: test-results/fr-design.xml
+Pytest log: test-results/fr-pytest.log
+Coverage XML: not generated; pytest-cov was unavailable.
+Environment: SQLite test setting, migrations disabled; PostgreSQL unavailable.
